@@ -36,11 +36,15 @@ axiosClient.interceptors.response.use(async (response) => {
     window.location.replace("/login", "_self");
     return Promise.reject(error);
   }
-  if (statusCode === 401) {
+  if (statusCode === 401 && !originalRequest._retry) {
     //access token expires
-    const res = await axiosClient.get("/auth/refresh");
+    originalRequest._retry = true;
+    const res = await axios
+      .create({
+        withCredentials: true,
+      })
+      .get(`${process.env.REACT_APP_SERVER_BASE_URL}/auth/refresh`);
     console.log("response from backend", res);
-
 
     if (res.status === "OK") {
       setItem(KEY_ACCESS_TOKEN, res.result.accessToken);
