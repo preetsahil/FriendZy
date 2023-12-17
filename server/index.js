@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./dbConnect");
 const authRouter = require("./routes/authRouter");
 const postsRouter = require("./routes/postsRouter");
+const userRouter = require("./routes/userRouter");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
+app.use("/user", userRouter);
 
 const PORT = process.env.PORT || 4001;
 connectDB();
