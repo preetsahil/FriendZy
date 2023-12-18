@@ -18,6 +18,8 @@ const requireUser = async (req, res, next) => {
       process.env.ACCESS_TOKEN_PRIVATE_KEY
     );
     req._id = decoded._id;
+    //after user is deleted it might be the case access token is still valid that's why their is call needed to
+    //database if user actually exist or not
     const user = await User.findById(req._id);
     if (!user) {
       return res.send(error(404, "User not found"));
