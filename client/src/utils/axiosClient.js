@@ -23,7 +23,7 @@ axiosClient.interceptors.response.use(async (response) => {
     return data;
   }
   const statusCode = data.statusCode;
-  const error = data.error;
+  const error = data.message;
   const originalRequest = response.config;
 
   if (
@@ -44,13 +44,13 @@ axiosClient.interceptors.response.use(async (response) => {
         withCredentials: true,
       })
       .get(`${process.env.REACT_APP_SERVER_BASE_URL}/auth/refresh`);
-    console.log("response from backend", res);
+    // console.log("response from backend", res);
 
-    if (res.status === "OK") {
-      setItem(KEY_ACCESS_TOKEN, res.result.accessToken);
+    if (res.data.status === "OK") {
+      setItem(KEY_ACCESS_TOKEN, res.data.result.accessToken);
       originalRequest.headers[
         "Authorization"
-      ] = `Bearer ${res.result.accessToken}`;
+      ] = `Bearer ${res.data.result.accessToken}`;
       return axios(originalRequest);
     }
   }

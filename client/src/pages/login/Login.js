@@ -7,17 +7,17 @@ import { KEY_ACCESS_TOKEN, setItem } from "../../utils/localStorageManager";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response=await axiosClient.post("/auth/login", {
+      const response = await axiosClient.post("/auth/login", {
         email,
         password,
       });
-            setItem(KEY_ACCESS_TOKEN, response.result.accessToken);
-            // navigate("/");
+      setItem(KEY_ACCESS_TOKEN, response.result.accessToken);
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
