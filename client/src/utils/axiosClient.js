@@ -26,16 +26,6 @@ axiosClient.interceptors.response.use(async (response) => {
   const error = data.message;
   const originalRequest = response.config;
 
-  if (
-    statusCode === 401 &&
-    originalRequest.url ===
-      `${process.env.REACT_APP_SERVER_BASE_URL}/auth/refresh`
-  ) {
-    //when refres token expires send user to login page
-    removeItem(KEY_ACCESS_TOKEN);
-    window.location.replace("/login", "_self");
-    return Promise.reject(error);
-  }
   if (statusCode === 401 && !originalRequest._retry) {
     //access token expires
     originalRequest._retry = true;
@@ -44,8 +34,6 @@ axiosClient.interceptors.response.use(async (response) => {
         withCredentials: true,
       })
       .get(`${process.env.REACT_APP_SERVER_BASE_URL}/auth/refresh`);
-    // console.log("response from backend", res);
-
     if (res.data.status === "OK") {
       setItem(KEY_ACCESS_TOKEN, res.data.result.accessToken);
       originalRequest.headers[
@@ -53,6 +41,11 @@ axiosClient.interceptors.response.use(async (response) => {
       ] = `Bearer ${res.data.result.accessToken}`;
       return axios(originalRequest);
     }
+  } else {
+    //refresh token expires
+    removeItem(KEY_ACCESS_TOKEN);
+    window.location.replace("/login", "_self");
+    return Promise.reject(error);
   }
   return Promise.reject(error);
 });
