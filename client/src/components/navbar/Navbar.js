@@ -1,28 +1,16 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../avatar/Avatar";
-import "./Navbar.scss"
-import LoadingBar from "react-top-loading-bar";
-
+import "./Navbar.scss";
+import {  useSelector } from "react-redux";
 
 function Navbar() {
   const navigate = useNavigate();
-  const loadingRef=useRef();
-  const [loading,setLoading]=useState(false);
-
-  function toggleLoadingBar(){
-    if(loading){
-        setLoading(false)
-        loadingRef.current.complete();
-    }
-    else{
-        setLoading(true)
-        loadingRef.current.continuousStart();
-    }
-  }
+  const myProfile=useSelector((state)=>state.appConfigReducer.myProfile)
+function handleLogoutClicked(){}
+  
   return (
     <div className="Navbar">
-      <LoadingBar color="#5f9fff" ref={loadingRef} />
       <div className="container">
         <h2
           className="banner hover-link"
@@ -36,12 +24,12 @@ function Navbar() {
           <div
             className="profile hover-link"
             onClick={() => {
-              navigate("/profile/lknve");
+              navigate(`/profile/${myProfile?._id}`);
             }}
           >
-            <Avatar />
+            <Avatar src={myProfile?.avatar?.url} />
           </div>
-          <div className="logout hover-link" onClick={toggleLoadingBar}>
+          <div className="logout hover-link" onClick={handleLogoutClicked}>
             Log Out
           </div>
         </div>
