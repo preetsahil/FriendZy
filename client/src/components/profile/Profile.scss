@@ -23,6 +23,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
+            object-fit: cover;
         }
 
         .user-name,
@@ -30,9 +31,9 @@
             margin-top: 12px;
         }
 
-        // .bio {
-        //     margin-top: 6px;
-        // }
+        .bio {
+            margin-top: 6px;
+        }
 
         .follower-info {
             display: flex;
