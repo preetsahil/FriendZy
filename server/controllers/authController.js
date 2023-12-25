@@ -89,12 +89,12 @@ const refreshAccessTokenController = async (req, res) => {
 
 const logoutController = async (req, res) => {
   try {
-    res.clearCookies("jwt", {
+    res.clearCookie("jwt", {
       httpOnly: true,
       secure: true,
     });
     return res.send(success(200, "user logged out"));
-  } catch (error) {
+  } catch (e) {
     return res.send(error(500, e.message));
   }
 };
@@ -103,7 +103,6 @@ const generateAccessToken = (data) => {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
       expiresIn: "1d",
     });
-    // console.log(token);
     return token;
   } catch (error) {
     console.log(error);
@@ -114,7 +113,6 @@ const generateRefreshToken = (data) => {
     const token = jwt.sign(data, process.env.REFRESH_TOKEN_PRIVATE_KEY, {
       expiresIn: "1y",
     });
-    // console.log(token);
     return token;
   } catch (error) {
     console.log(error);

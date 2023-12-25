@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../avatar/Avatar";
 import "./Navbar.scss";

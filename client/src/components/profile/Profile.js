@@ -5,6 +5,7 @@ import CreatePost from "../createPost/CreatePost";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProfile } from "../../redux/slices/postSlice";
+import { followAndUnfollowUser } from "../../redux/slices/feedSlice";
 
 function Profile() {
   const navigate = useNavigate();
@@ -12,8 +13,10 @@ function Profile() {
   const dispatch = useDispatch();
   const myProfile = useSelector((state) => state.appConfigReducer.myProfile);
   const userProfile = useSelector((state) => state.postsReducer.userProfile);
+  const feedData = useSelector((state) => state.feedDataReducer.feedData);
 
   const [isMyProfile, setIsMyProfile] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     dispatch(
@@ -22,12 +25,24 @@ function Profile() {
       })
     );
     setIsMyProfile(myProfile?._id === params.userId);
-  }, [myProfile]);
+    setIsFollowing(
+      feedData?.followings?.find((item) => item._id === params.userId)
+    );
+  }, [myProfile, feedData, params.userId]);
+
+  function handleUserFollow() {
+    dispatch(
+      followAndUnfollowUser({
+        userIdToFollow: params.userId,
+      })
+    );
+  }
+
   return (
     <div className="Profile">
       <div className="container">
         <div className="left-part">
-          <CreatePost />
+          {isMyProfile && <CreatePost />}
           {userProfile?.posts?.map((post) => (
             <Post key={post._id} post={post} />
           ))}
@@ -42,7 +57,15 @@ function Profile() {
               <h4>{`${userProfile?.followings?.length} Followings`}</h4>
             </div>
             {!isMyProfile && (
-              <button className="follow btn-primary">Follow</button>
+              <h5
+                style={{ marginTop: "10px" }}
+                onClick={handleUserFollow}
+                className={
+                  isFollowing ? "hover-link follow-link" : "btn-primary"
+                }
+              >
+                {isFollowing ? "Unfollow" : "Follow"}
+              </h5>
             )}
             {isMyProfile && (
               <button

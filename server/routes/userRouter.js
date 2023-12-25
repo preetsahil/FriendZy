@@ -8,9 +8,9 @@ router.post(
   UserController.followOrUnfollowUserController
 );
 router.get(
-  "/getPostsOfFollowing",
+  "/getFeedData",
   requireUser,
-  UserController.getPostsOfFollowing
+  UserController.getFeedData
 );
 router.get("/getMyPosts", requireUser, UserController.getMyPosts);
 router.post("/getUserPosts", requireUser, UserController.getUserPosts);

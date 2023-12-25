@@ -42,18 +42,30 @@ const followOrUnfollowUserController = async (req, res) => {
   }
 };
 
-const getPostsOfFollowing = async (req, res) => {
+const getFeedData = async (req, res) => {
   try {
     const curUserId = req._id;
-    const curUser = await User.findById(curUserId);
+    const curUser = await User.findById(curUserId).populate("followings");
 
-    const posts = await Post.find({
+    const fullPosts = await Post.find({
       owner: {
         $in: curUser.followings,
       },
-    });
+    }).populate("owner");
 
-    return res.send(success(200, posts));
+    const posts = fullPosts
+      .map((item) => mapPostOutput(item, req._id))
+      .reverse();
+
+    const followingsIds = curUser.followings.map((item) => item._id);
+    followingsIds.push(req._id);
+
+    const suggestions = await User.find({
+      _id: {
+        $nin: followingsIds,
+      },
+    });
+    return res.send(success(200, { ...curUser._doc, suggestions, posts }));
   } catch (e) {
     console.log(e);
     return res.send(error(500, e.message));
@@ -199,7 +211,7 @@ const getUserProfile = async (req, res) => {
 
 module.exports = {
   followOrUnfollowUserController,
-  getPostsOfFollowing,
+  getFeedData,
   getMyPosts,
   getUserPosts,
   deleteMyProfile,
