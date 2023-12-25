@@ -3,7 +3,10 @@ import Avatar from "../avatar/Avatar";
 import "./Follower.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { followAndUnfollowUser } from "../../redux/slices/feedSlice";
+import {
+  followAndUnfollowUser,
+  getFeedData,
+} from "../../redux/slices/feedSlice";
 
 function Follower({ user }) {
   const dispatch = useDispatch();
@@ -20,7 +23,9 @@ function Follower({ user }) {
       followAndUnfollowUser({
         userIdToFollow: user._id,
       })
-    );
+    ).then(() => {
+      dispatch(getFeedData());
+    });
   }
 
   return (

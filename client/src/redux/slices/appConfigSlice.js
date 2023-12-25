@@ -3,7 +3,7 @@ import { axiosClient } from "../../utils/axiosClient";
 
 export const getMyInfo = createAsyncThunk("user/getMyInfo", async () => {
   try {
-    const response=await axiosClient.get('/user/getMyInfo')
+    const response = await axiosClient.get("/user/getMyInfo");
     return response.result;
   } catch (error) {
     return Promise.reject(error);
@@ -25,14 +25,18 @@ const appConfigSlice = createSlice({
   name: "appConfigSlice",
   initialState: {
     isLoading: false,
-    myProfile:null
+    myProfile: null,
+    toastData: {},
   },
   reducers: {
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    showToast: (state, action) => {
+      state.toastData = action.payload;
+    },
   },
-  extraReducers:(builder)=>{
+  extraReducers: (builder) => {
     builder
       .addCase(getMyInfo.fulfilled, (state, action) => {
         state.myProfile = action.payload.user;
@@ -40,9 +44,8 @@ const appConfigSlice = createSlice({
       .addCase(updateMyProfile.fulfilled, (state, action) => {
         state.myProfile = action.payload.user;
       });
-  }
+  },
 });
 
-
 export default appConfigSlice.reducer;
-export const { setLoading } = appConfigSlice.actions;
+export const { setLoading, showToast } = appConfigSlice.actions;
