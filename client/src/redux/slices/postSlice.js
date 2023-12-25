@@ -6,8 +6,21 @@ export const getUserProfile = createAsyncThunk(
   async (body) => {
     try {
       const response = await axiosClient.post("/user/getUserProfile", body);
-      console.log(response.result);
       return response.result;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
+export const likeAndUnlikePost = createAsyncThunk(
+  "/post/likeAndUnlike",
+  async (body) => {
+    try {
+      const response = await axiosClient.post("/posts/like", body);
+      console.log(response.result);
+
+      return response.result.post;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -21,9 +34,19 @@ const postSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(getUserProfile.fulfilled, (state, action) => {
-      state.userProfile = action.payload;
-    });
+    builder
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.userProfile = action.payload;
+      })
+      .addCase(likeAndUnlikePost.fulfilled, (state, action) => {
+        const post = action.payload;
+        const index = state?.userProfile?.posts?.findIndex(
+          (item) => item._id === post._id
+        );
+        if(index!=undefined && index !=-1){
+          state.userProfile.posts[index]=post
+        }
+      });
   },
 });
 

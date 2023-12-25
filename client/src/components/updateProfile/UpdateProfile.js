@@ -4,6 +4,7 @@ import "./UpdateProfile.scss";
 import dummyUserImg from "../../assets/user.png";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMyProfile } from "../../redux/slices/appConfigSlice";
+import { useNavigate } from "react-router-dom";
 
 function UpdateProfile() {
   const myProfile = useSelector((state) => state.appConfigReducer.myProfile);
@@ -11,6 +12,7 @@ function UpdateProfile() {
   const [bio, setBio] = useState("");
   const [userImg, setUserImg] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setName(myProfile?.name || "");
@@ -39,6 +41,7 @@ function UpdateProfile() {
         userImg,
       })
     );
+    navigate(`/profile/${myProfile?._id}`);
   }
 
   return (

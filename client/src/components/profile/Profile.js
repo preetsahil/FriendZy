@@ -28,18 +28,15 @@ function Profile() {
       <div className="container">
         <div className="left-part">
           <CreatePost />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {userProfile?.posts?.map((post) => (
+            <Post key={post._id} post={post} />
+          ))}
         </div>
         <div className="right-part">
           <div className="profile-card">
             <img className="user-img" src={userProfile?.avatar?.url} alt="" />
             <h3 className="user-name">{userProfile?.name}</h3>
-
             <p className="bio">{userProfile?.bio}</p>
-
             <div className="follower-info">
               <h4>{`${userProfile?.followers?.length} Followers`}</h4>
               <h4>{`${userProfile?.followings?.length} Followings`}</h4>
