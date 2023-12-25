@@ -2,13 +2,21 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "../avatar/Avatar";
 import "./Navbar.scss";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { KEY_ACCESS_TOKEN, removeItem } from "../../utils/localStorageManager";
+import { axiosClient } from "../../utils/axiosClient";
 
 function Navbar() {
   const navigate = useNavigate();
-  const myProfile=useSelector((state)=>state.appConfigReducer.myProfile)
-function handleLogoutClicked(){}
-  
+  const myProfile = useSelector((state) => state.appConfigReducer.myProfile);
+  async function handleLogoutClicked() {
+    try {
+      await axiosClient.post("/auth/logout");
+      removeItem(KEY_ACCESS_TOKEN);
+      navigate("/login");
+    } catch (e) {}
+  }
+
   return (
     <div className="Navbar">
       <div className="container">
