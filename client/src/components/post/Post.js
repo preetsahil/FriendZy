@@ -37,7 +37,7 @@ function Post({ post }) {
           ) : (
             <AiOutlineHeart className="icon" />
           )}
-          <h4>{`${post.likesCount} likes`}</h4>
+          <h4>{post.likesCount>1 ? `${post.likesCount} likes` : `${post.likesCount} like`}</h4>
         </div>
         <p className="caption">{post.caption}</p>
         <h6 className="time-ago">{post?.timeAgo}</h6>
