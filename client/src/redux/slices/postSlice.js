@@ -18,8 +18,6 @@ export const likeAndUnlikePost = createAsyncThunk(
   async (body) => {
     try {
       const response = await axiosClient.post("/posts/like", body);
-      console.log(response.result);
-
       return response.result.post;
     } catch (error) {
       return Promise.reject(error);
@@ -43,8 +41,8 @@ const postSlice = createSlice({
         const index = state?.userProfile?.posts?.findIndex(
           (item) => item._id === post._id
         );
-        if(index!==undefined && index !==-1){
-          state.userProfile.posts[index]=post
+        if (index !== undefined && index !== -1) {
+          state.userProfile.posts[index] = post;
         }
       });
   },
