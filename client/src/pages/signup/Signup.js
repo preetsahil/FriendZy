@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./Signup.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utils/axiosClient";
 function Signup() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +16,7 @@ function Signup() {
           email,
           password, 
         });
-        console.log(result);
+      navigate("/");
       } catch (error) {
         console.log(error);
       }
@@ -55,11 +56,11 @@ function Signup() {
             }}
           />
 
-          <input type="submit" className="submit" />
+         <input type="submit" className="submit" value="Sign up"/>
         </form>
 
         <p className="subheading">
-          Do not have an account? <Link to="/login">Log In</Link>
+          Do not have an account? <Link to="/login">Log in</Link>
         </p>
       </div>
     </div>

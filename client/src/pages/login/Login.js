@@ -26,7 +26,7 @@ function Login() {
   return (
     <div className="Login">
       <div className="login-box">
-        <h2 className="heading">Login</h2>
+        <h2 className="heading">Log in</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input
@@ -48,11 +48,10 @@ function Login() {
             }}
           />
 
-          <input type="submit" className="submit" />
+          <input type="submit" className="submit" value="Log in" />
         </form>
-
         <p className="subheading">
-          Do not have an account? <Link to="/signup">Sign Up</Link>
+          Do not have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>
     </div>

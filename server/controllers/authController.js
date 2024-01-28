@@ -18,7 +18,7 @@ const signupController = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
@@ -71,7 +71,6 @@ const refreshAccessTokenController = async (req, res) => {
     return res.send(error(401, "Refresh Token in cookie is Required"));
   }
   const refreshToken = cookies.jwt;
-  console.log("Refresh", refreshToken);
   try {
     const decoded = jwt.verify(
       refreshToken,
