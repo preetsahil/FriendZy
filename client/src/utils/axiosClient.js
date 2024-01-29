@@ -19,7 +19,6 @@ export const axiosClient = axios.create({
 axiosClient.interceptors.request.use((request) => {
   const accessToken = getItem(KEY_ACCESS_TOKEN);
   request.headers["Authorization"] = `Bearer ${accessToken}`;
-  console.log(process.env.REACT_APP_SERVER_BASE_URL);
   store.dispatch(setLoading(true));
   return request;
 });
