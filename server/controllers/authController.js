@@ -33,6 +33,7 @@ const signupController = async (req, res) => {
 };
 const loginController = async (req, res) => {
   try {
+    console.log(process.env.CORS_ORIGIN)
     const { email, password } = req.body;
 
     if (!email || !password) {
