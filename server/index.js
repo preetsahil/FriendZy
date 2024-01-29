@@ -11,16 +11,15 @@ const app = express();
 const cloudinary = require("cloudinary").v2;
 
 //middlewares
-app.use(express.json({ limit: "10mb" }));
-app.use(morgan("common"));
-app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
     origin: process.env.CORS_ORIGIN,
   })
 );
-
+app.use(express.json({ limit: "10mb" }));
+app.use(morgan("common"));
+app.use(cookieParser());
 dotenv.config("./.env");
 
 cloudinary.config({
