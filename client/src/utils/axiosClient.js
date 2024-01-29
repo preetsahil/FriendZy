@@ -10,6 +10,7 @@ import { setLoading, showToast } from "../redux/slices/appConfigSlice";
 import { TOAST_FAILURE } from "../App";
 
 let baseURL =process.env.REACT_APP_SERVER_BASE_URL;
+console.log(process.env.REACT_APP_SERVER_BASE_URL)
 
 export const axiosClient = axios.create({
   baseURL,

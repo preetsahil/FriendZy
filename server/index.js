@@ -11,16 +11,17 @@ const app = express();
 const cloudinary = require("cloudinary").v2;
 
 //middlewares
+dotenv.config();
 app.use(
   cors({
     credentials: true,
     origin: process.env.CORS_ORIGIN,
   })
 );
+console.log(process.env.CORS_ORIGIN)
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("common"));
 app.use(cookieParser());
-dotenv.config("./.env");
 
 cloudinary.config({
   cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
