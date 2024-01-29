@@ -12,8 +12,6 @@ router.get(
   requireUser,
   UserController.getFeedData
 );
-router.get("/getMyPosts", requireUser, UserController.getMyPosts);
-router.post("/getUserPosts", requireUser, UserController.getUserPosts);
 router.delete("/", requireUser, UserController.deleteMyProfile);
 router.get("/getMyInfo", requireUser, UserController.getMyInfo);
 router.put("/", requireUser, UserController.updateMyProfile);

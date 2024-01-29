@@ -6,10 +6,10 @@ const { mapPostOutput } = require("../utils/Utils");
 
 const createPostController = async (req, res) => {
   try {
-    const { caption, postImg } = req.body;
+    const { postImg } = req.body;
 
-    if (!caption || !postImg) {
-      return res.send(error(400, "Caption and postImg are required"));
+    if (!postImg) {
+      return res.send(error(400, "postImg are required"));
     }
 
     const cloudImg = await cloudinary.uploader.upload(postImg, {
@@ -43,7 +43,7 @@ const likeAndUnlikePost = async (req, res) => {
     const { postId } = req.body;
     const curUserID = req._id;
 
-    const post = await Post.findById(postId).populate('owner');
+    const post = await Post.findById(postId).populate("owner");
 
     if (!post) {
       return res.send(error(404, "Post not found"));

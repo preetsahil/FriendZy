@@ -4,6 +4,7 @@ const requireUser = require("../middlewares/requireUser");
 
 router.post("/", requireUser, postsController.createPostController);
 router.post("/like", requireUser, postsController.likeAndUnlikePost);
+// router.post("/comment", requireUser, postsController.commentController);
 router.put("/", requireUser, postsController.updatePostController);
 router.delete("/", requireUser, postsController.deletePost);
 
