@@ -10,7 +10,6 @@ import { setLoading, showToast } from "../redux/slices/appConfigSlice";
 import { TOAST_FAILURE } from "../App";
 
 let baseURL =process.env.REACT_APP_SERVER_BASE_URL;
-console.log(process.env.REACT_APP_SERVER_BASE_URL)
 
 export const axiosClient = axios.create({
   baseURL,
@@ -20,6 +19,7 @@ export const axiosClient = axios.create({
 axiosClient.interceptors.request.use((request) => {
   const accessToken = getItem(KEY_ACCESS_TOKEN);
   request.headers["Authorization"] = `Bearer ${accessToken}`;
+  console.log(process.env.REACT_APP_SERVER_BASE_URL);
   store.dispatch(setLoading(true));
   return request;
 });
