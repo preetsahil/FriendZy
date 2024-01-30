@@ -11,11 +11,11 @@ const app = express();
 const cloudinary = require("cloudinary").v2;
 
 //middlewares
-dotenv.config();
+dotenv.config("./env");
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN,
+    origin: [process.env.CORS_ORIGIN,"http://localhost:3000"],
   })
 );
 app.use(express.json({ limit: "10mb" }));
