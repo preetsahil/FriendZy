@@ -11,6 +11,8 @@ import { useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import OnlyIfNotLoggedIn from "./components/OnlyIfNotLoggedIn";
 import toast, { Toaster } from "react-hot-toast";
+import ForgetPassword from "./components/forgetpassword/ForgetPassword";
+import ResetPassword from "./components/resetpassword/ResetPassword";
 
 export const TOAST_SUCCESS = "toast_success";
 export const TOAST_FAILURE = "toast_failure";
@@ -53,6 +55,8 @@ function App() {
             <Route path="/updateProfile" element={<UpdateProfile />} />
           </Route>
         </Route>
+        <Route path="/forget" element={<ForgetPassword />} />
+        <Route path="/reset" element={<ResetPassword />} />
         <Route element={<OnlyIfNotLoggedIn />}>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />

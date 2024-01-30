@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 const { error, success } = require("../utils/responseWrapper");
 const signupController = async (req, res) => {
   try {
@@ -97,6 +98,51 @@ const logoutController = async (req, res) => {
     return res.send(error(500, e.message));
   }
 };
+
+const forgetPasswordController = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.send(
+      error(404, "This email is not registered on the platform! Please SignUp")
+    );
+  }
+  let url = "http://localhost:3000/#";
+  if (process.env.NODE_ENV === "production") {
+    url = process.env.CORS_ORIGIN;
+  }
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "sahilcloud56@gmail.com",
+      pass: "pqzc lvns yckv crqz",
+    },
+  });
+
+  transporter.sendMail({
+    from: '"Sahil 👻" <sahilcloud56@gmail.com>',
+    to: email,
+    subject: "Password Reset",
+    html: `<p> Password reset link</p>
+      <a href='${url}/reset' style='border-radius: 5px;padding: 10px 25px;font-size: 20px;text-decoration: none;margin: 20px;color: #fff;position: relative;display: inline-block;  background-color: #55acee;'>Click here to reset your password</a>`,
+  });
+  const resetToken = generateResetToken({
+    email,
+  });
+  res.send(success(200, resetToken));
+};
+
+const generateResetToken = (data) => {
+  try {
+    const token = jwt.sign(data, process.env.RESET_TOKEN_PRIVATE_KEY, {
+      expiresIn: "5m",
+    });
+    return token;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const generateAccessToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
@@ -117,9 +163,27 @@ const generateRefreshToken = (data) => {
     console.log(error);
   }
 };
+
+const resetController = async (req, res) => {
+  try {
+    const email = req.email;
+    const { password } = req.body;
+    const user = await User.findOne({ email });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+    return res.send(success(200, "password updated successfully"));
+  } catch (e) {
+    return res.send(
+      error(401, "Link is expired, Please click on forgetPassword again")
+    );
+  }
+};
 module.exports = {
   signupController,
   loginController,
   refreshAccessTokenController,
   logoutController,
+  forgetPasswordController,
+  resetController,
 };

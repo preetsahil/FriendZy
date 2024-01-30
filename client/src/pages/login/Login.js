@@ -53,6 +53,9 @@ function Login() {
         <p className="subheading">
           Do not have an account? <Link to="/signup">Sign up</Link>
         </p>
+        <p className="subheading">
+          <Link to="/forget">forget password?</Link>
+        </p>
       </div>
     </div>
   );

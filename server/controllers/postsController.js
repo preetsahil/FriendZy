@@ -6,7 +6,7 @@ const { mapPostOutput } = require("../utils/Utils");
 
 const createPostController = async (req, res) => {
   try {
-    const {caption, postImg } = req.body;
+    const { caption, postImg } = req.body;
 
     if (!postImg) {
       return res.send(error(400, "postImg are required"));
@@ -64,7 +64,10 @@ const likeAndUnlikePost = async (req, res) => {
 
 const updatePostController = async (req, res) => {
   try {
-    const { postId, caption } = req.body;
+    const { postId, caption, postImg } = req.body;
+    if(!postId){
+      return res.send(error(400,"postId is required"))
+    }
 
     const curUserID = req._id;
     const post = await Post.findById(postId);
@@ -76,7 +79,13 @@ const updatePostController = async (req, res) => {
     if (caption) {
       post.caption = caption;
     }
-
+    if (postImg) {
+      const cloudImg = await cloudinary.uploader.upload(postImg, {
+        folder: "postImg",
+      });
+      post.image.publicId = cloudImg.public_id;
+      post.image.url = cloudImg.url;
+    }
     await post.save();
     return res.send(success(200, { post }));
   } catch (e) {
@@ -89,6 +98,9 @@ const deletePost = async (req, res) => {
   try {
     const { postId } = req.body;
     const curUserId = req._id;
+     if (!postId) {
+       return res.send(error(400, "postId is required"));
+     }
 
     const post = await Post.findById(postId);
     const curUser = await User.findById(curUserId);
