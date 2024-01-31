@@ -18,7 +18,7 @@ const reset = async (req, res, next) => {
     return res.send(
       error(
         401,
-        "Link is expired, Password not reset, Please click on forget password again"
+        "Link is expired, Password not reset, Please enter the email again for the link"
       )
     );
   }

@@ -135,7 +135,7 @@ const forgetPasswordController = async (req, res) => {
 const generateResetToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.RESET_TOKEN_PRIVATE_KEY, {
-      expiresIn: "5m",
+      expiresIn: "1d",
     });
     return token;
   } catch (error) {

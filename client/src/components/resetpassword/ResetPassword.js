@@ -36,7 +36,6 @@ function ResetPassword() {
             },
           }
         );
-        console.log(response)
         if (response.data.statusCode === 401) {
             store.dispatch(
               showToast({
@@ -58,11 +57,11 @@ function ResetPassword() {
              store.dispatch(
                showToast({
                  type: TOAST_SUCCESS,
-                 message: response.data.message,
+                 message: response.data.result,
                })
              );
-          
           navigate("/login");
+          localStorage.removeItem("RESET_TOKEN")
         }
       } catch (error) {
         console.log(error);
