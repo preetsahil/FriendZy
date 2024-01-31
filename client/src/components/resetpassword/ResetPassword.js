@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./ResetPassword.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { TOAST_FAILURE, TOAST_SUCCESS } from "../../App";
+import { showToast } from "../../redux/slices/appConfigSlice";
+import store from "../../redux/store";
 
 function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -33,12 +36,34 @@ function ResetPassword() {
             },
           }
         );
-        // console.log(response)
-        // if (response.status === "error") {
-        //   alert(response.result);
-        //   navigate("/login");
-        // }
-        navigate("/login");
+        console.log(response)
+        if (response.data.statusCode === 401) {
+            store.dispatch(
+              showToast({
+                type: TOAST_FAILURE,
+                message: response.data.message,
+              })
+            );
+            navigate('/forget')
+        }
+        if (response.data.statusCode === 500) {
+             store.dispatch(
+               showToast({
+                 type: TOAST_FAILURE,
+                 message: response.data.message,
+               })
+             );
+        }
+        if (response.data.statusCode === 200) {
+             store.dispatch(
+               showToast({
+                 type: TOAST_SUCCESS,
+                 message: response.data.message,
+               })
+             );
+          
+          navigate("/login");
+        }
       } catch (error) {
         console.log(error);
       }

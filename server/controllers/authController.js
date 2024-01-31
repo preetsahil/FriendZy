@@ -175,7 +175,7 @@ const resetController = async (req, res) => {
     return res.send(success(200, "password updated successfully"));
   } catch (e) {
     return res.send(
-      error(401, "Link is expired, Please click on forgetPassword again")
+      error(500, "internal server error try again!")
     );
   }
 };
