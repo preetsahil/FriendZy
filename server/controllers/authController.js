@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const { error, success } = require("../utils/responseWrapper");
+
 const signupController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -24,10 +25,19 @@ const signupController = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    // const newUser = await User.findById(user._id);   password select:false
+    const user = await User.findOne({ email });
 
-    // return res.status(201).send(newUser);
-    return res.send(success(201, "user registered successfully"));
+  const accessToken = generateAccessToken({
+    _id: user._id,
+  });
+  const refreshToken = generateRefreshToken({
+    _id: user._id,
+  });
+   res.cookie("jwt", refreshToken, {
+     httpOnly: true,
+     secure: true,
+   });
+   return res.send(success(200, { accessToken }));
   } catch (e) {
     return res.send(error(500, e.message));
   }
@@ -179,6 +189,7 @@ const resetController = async (req, res) => {
     );
   }
 };
+
 module.exports = {
   signupController,
   loginController,

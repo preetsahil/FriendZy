@@ -2,25 +2,34 @@ import React, { useState } from "react";
 import "./Signup.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosClient } from "../../utils/axiosClient";
+import { KEY_ACCESS_TOKEN, setItem } from "../../utils/localStorageManager";
 function Signup() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
 
-    async function handleSubmit(e) {
-      e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (password !== confirmpassword) {
+      alert("Passwords Don't Match");
+      setConfirmPassword("");
+      setPassword("");
+    } else {
       try {
-        const result = await axiosClient.post("/auth/signup", {
+        const response=await axiosClient.post("/auth/signup", {
           name,
           email,
-          password, 
+          password,
         });
-      navigate("/");
+        setItem(KEY_ACCESS_TOKEN, response.result.accessToken);
+        navigate("/");
       } catch (error) {
         console.log(error);
       }
     }
+  }
 
   return (
     <div className="Signup">
@@ -41,6 +50,7 @@ function Signup() {
             type="email"
             className="email"
             id="email"
+            placeholder="example@gmail.com"
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -55,8 +65,17 @@ function Signup() {
               setPassword(e.target.value);
             }}
           />
+          <label htmlFor="confirmpassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmpassword"
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
+            required
+          />
 
-         <input type="submit" className="submit" value="Sign up"/>
+          <input type="submit" className="submit" value="Sign up" />
         </form>
 
         <p className="subheading">

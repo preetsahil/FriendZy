@@ -19,7 +19,7 @@ function Login() {
       setItem(KEY_ACCESS_TOKEN, response.result.accessToken);
       navigate("/");
     } catch (error) {
-      console.log("this"+error);
+      console.log("this" + error);
     }
   }
 
@@ -54,7 +54,7 @@ function Login() {
           Do not have an account? <Link to="/signup">Sign up</Link>
         </p>
         <p className="subheading">
-          <Link to="/forget">forget password?</Link>
+          <Link to="/forget">Forget Password?</Link>
         </p>
       </div>
     </div>

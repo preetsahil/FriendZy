@@ -1,45 +1,47 @@
-.Login{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.Login {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    .heading{
-        text-align: center;
-    }
- 
-    .login-box{
-        padding: 40px;
-        min-width:400px;
-        border-radius: 4px;
-        border: 1px solid black; 
-    }
-    label,input{
-        display: block;
-        width: 100%;
-        margin-block: 8px;
-    }
-    label {
-        font-weight: bold;
-    }
-    input{
-        padding: 8px 16px;
-        border-radius: 4px;
-        border: 1px solid black;
-    }
+  .heading {
+    text-align: center;
+  }
 
-    .submit{
-        background-color:hwb(180 5% 33%);
-        color:white;
-        border: none;
-        margin-top: 16px;
-        font-weight: bold;
-    }
-    .submit:hover{
-        background-color: #0b7a7a;
-    }
-    .subheading{
-        margin-top: 16px;
-        text-align: center;
-    }
+  .login-box {
+    padding: 40px;
+    min-width: 400px;
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+  label,
+  input {
+    display: block;
+    width: 100%;
+    margin-block: 8px;
+  }
+  label {
+    font-weight: bold;
+  }
+  input {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid black;
+  }
+
+  .submit {
+    background-color: hwb(180 5% 33%);
+    color: white;
+    border: none;
+    margin-top: 16px;
+    font-weight: bold;
+  }
+  .submit:hover {
+    background-color: #0b7a7a;
+  }
+
+  .subheading {
+    margin-top: 16px;
+    text-align: center;
+  }
 }
