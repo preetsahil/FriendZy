@@ -17,7 +17,4 @@ router.get("/getMyInfo", requireUser, UserController.getMyInfo);
 router.put("/", requireUser, UserController.updateMyProfile);
 router.post("/getUserProfile", requireUser, UserController.getUserProfile);
 
-
-
-
 module.exports = router;

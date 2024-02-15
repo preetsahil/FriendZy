@@ -92,37 +92,37 @@ const commentsController = async (req, res) => {
   }
 };
 
-const updatePostController = async (req, res) => {
-  try {
-    const { postId, caption, postImg } = req.body;
-    if (!postId) {
-      return res.send(error(400, "postId is required"));
-    }
+// const updatePostController = async (req, res) => {
+//   try {
+//     const { postId, caption, postImg } = req.body;
+//     if (!postId) {
+//       return res.send(error(400, "postId is required"));
+//     }
 
-    const curUserID = req._id;
-    const post = await Post.findById(postId);
+//     const curUserID = req._id;
+//     const post = await Post.findById(postId);
 
-    if (post.owner.toString() !== curUserID) {
-      return res.send(error(403, "Only owners can update their posts"));
-    }
+//     if (post.owner.toString() !== curUserID) {
+//       return res.send(error(403, "Only owners can update their posts"));
+//     }
 
-    if (caption) {
-      post.caption = caption;
-    }
-    if (postImg) {
-      const cloudImg = await cloudinary.uploader.upload(postImg, {
-        folder: "postImg",
-      });
-      post.image.publicId = cloudImg.public_id;
-      post.image.url = cloudImg.url;
-    }
-    await post.save();
-    return res.send(success(200, { post }));
-  } catch (e) {
-    console.log(e);
-    return res.send(error(500, e.message));
-  }
-};
+//     if (caption) {
+//       post.caption = caption;
+//     }
+//     if (postImg) {
+//       const cloudImg = await cloudinary.uploader.upload(postImg, {
+//         folder: "postImg",
+//       });
+//       post.image.publicId = cloudImg.public_id;
+//       post.image.url = cloudImg.url;
+//     }
+//     await post.save();
+//     return res.send(success(200, { post }));
+//   } catch (e) {
+//     console.log(e);
+//     return res.send(error(500, e.message));
+//   }
+// };
 
 const deletePost = async (req, res) => {
   try {
@@ -156,6 +156,6 @@ module.exports = {
   createPostController,
   likeAndUnlikePost,
   commentsController,
-  updatePostController,
+  // updatePostController,
   deletePost,
 };

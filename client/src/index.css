@@ -33,9 +33,6 @@ p {
 .hover-link {
   cursor: pointer;
 }
-.hover-link:active {
-  color: red;
-}
 .container{
   max-width: 960px;
   margin-inline:auto;

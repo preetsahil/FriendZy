@@ -27,19 +27,19 @@ const signupController = async (req, res) => {
     });
     const user = await User.findOne({ email });
 
-  // const accessToken = generateAccessToken({
-  //   _id: user._id,
-  // });
-  // const refreshToken = generateRefreshToken({
-  //   _id: user._id,
-  // });
-  //  res.cookie("jwt", refreshToken, {
-  //    httpOnly: true,
-  //    secure: true,
-  //  });
-  return res.send(success(200,user));
+  const accessToken = generateAccessToken({
+    _id: user._id,
+  });
+  const refreshToken = generateRefreshToken({
+    _id: user._id,
+  });
+   res.cookie("jwt", refreshToken, {
+     httpOnly: true,
+     secure: true,
+   });
+  // return res.send(success(200,user));
 
-  //  return res.send(success(200, { accessToken }));
+   return res.send(success(200, { accessToken }));
   } catch (e) {
     return res.send(error(500, e.message));
   }
@@ -158,7 +158,7 @@ const generateResetToken = (data) => {
 const generateAccessToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
-      expiresIn: "1d",
+      expiresIn: "20s",
     });
     return token;
   } catch (error) {
@@ -168,7 +168,7 @@ const generateAccessToken = (data) => {
 const generateRefreshToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.REFRESH_TOKEN_PRIVATE_KEY, {
-      expiresIn: "1y",
+      expiresIn: "50s",
     });
     return token;
   } catch (error) {

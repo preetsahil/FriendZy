@@ -29,7 +29,6 @@ function UpdateProfile() {
     fileReader.onload = () => {
       if (fileReader.readyState === fileReader.DONE) {
         setUserImg(fileReader.result);
-        console.log("img data", fileReader.result);
       }
     };
   }
