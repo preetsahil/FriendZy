@@ -56,17 +56,47 @@ const likeAndUnlikePost = async (req, res) => {
       post.likes.push(curUserID);
     }
     await post.save();
-    return res.send(success(200, { post: mapPostOutput(post, req._id) }));
+    aw;
+    return res.send(success(200, post));
   } catch (e) {
     return res.send(error(500, e.message));
+  }
+};
+const commentsController = async (req, res) => {
+  try {
+    const { postId, text } = req.body;
+    if (!postId) {
+      return res.send(error(400, "postId is required"));
+    }
+    if (!text) {
+      return res.send(error(400, "text is required"));
+    }
+    const curUserId = req._id;
+
+    const post = await Post.findById(postId).populate("owner");
+
+    if (!post) {
+      return res.send(error(404, "Post not found"));
+    }
+    const newComment = {
+      user: curUserId,
+      text,
+    };
+    post.comments.push(newComment);
+
+    await post.save();
+    await post.populate("comments.user");
+    return res.send(success(200, { post: mapPostOutput(post, req._id) }));
+  } catch (e) {
+    res.send(error(500, e.message));
   }
 };
 
 const updatePostController = async (req, res) => {
   try {
     const { postId, caption, postImg } = req.body;
-    if(!postId){
-      return res.send(error(400,"postId is required"))
+    if (!postId) {
+      return res.send(error(400, "postId is required"));
     }
 
     const curUserID = req._id;
@@ -98,9 +128,9 @@ const deletePost = async (req, res) => {
   try {
     const { postId } = req.body;
     const curUserId = req._id;
-     if (!postId) {
-       return res.send(error(400, "postId is required"));
-     }
+    if (!postId) {
+      return res.send(error(400, "postId is required"));
+    }
 
     const post = await Post.findById(postId);
     const curUser = await User.findById(curUserId);
@@ -125,6 +155,7 @@ const deletePost = async (req, res) => {
 module.exports = {
   createPostController,
   likeAndUnlikePost,
+  commentsController,
   updatePostController,
   deletePost,
 };

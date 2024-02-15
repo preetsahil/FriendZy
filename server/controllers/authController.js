@@ -27,17 +27,19 @@ const signupController = async (req, res) => {
     });
     const user = await User.findOne({ email });
 
-  const accessToken = generateAccessToken({
-    _id: user._id,
-  });
-  const refreshToken = generateRefreshToken({
-    _id: user._id,
-  });
-   res.cookie("jwt", refreshToken, {
-     httpOnly: true,
-     secure: true,
-   });
-   return res.send(success(200, { accessToken }));
+  // const accessToken = generateAccessToken({
+  //   _id: user._id,
+  // });
+  // const refreshToken = generateRefreshToken({
+  //   _id: user._id,
+  // });
+  //  res.cookie("jwt", refreshToken, {
+  //    httpOnly: true,
+  //    secure: true,
+  //  });
+  return res.send(success(200,user));
+
+  //  return res.send(success(200, { accessToken }));
   } catch (e) {
     return res.send(error(500, e.message));
   }

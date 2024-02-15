@@ -1,4 +1,4 @@
-var ta = require('time-ago')
+var ta = require("time-ago");
 
 const mapPostOutput = (post, userId) => {
   return {
@@ -10,6 +10,11 @@ const mapPostOutput = (post, userId) => {
       name: post.owner.name,
       avatar: post.owner.avatar,
     },
+    comments: post.comments.map((comment) => ({
+      userId: comment.user,
+      text: comment.text,
+      createdAt: ta.ago(comment.createdAt),
+    })),
     likesCount: post.likes.length,
     isLiked: post.likes.includes(userId),
     timeAgo: ta.ago(post.createdAt),

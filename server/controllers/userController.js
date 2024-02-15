@@ -107,6 +107,7 @@ const deleteMyProfile = async (req, res) => {
     // remove myself from all likes
     await Post.updateMany({}, { $pull: { likes: curUserId } });
     // reomve myself from all comments
+    await Post.updateMany({}, { $pull: { comments: { user: curUserId } } });
 
     // delete user
     await curUser.deleteOne();
