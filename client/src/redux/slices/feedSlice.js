@@ -2,18 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosClient } from "../../utils/axiosClient";
 import { likeAndUnlikePost } from "./postSlice";
 
-export const getFeedData = createAsyncThunk(
-  "user/getFeedData",
-  async () => {
-    try {
-      const response = await axiosClient.get("/user/getFeedData");
-    //   console.log(response.result)
-      return response.result;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+export const getFeedData = createAsyncThunk("user/getFeedData", async () => {
+  try {
+    const response = await axiosClient.get("/user/getFeedData");
+    return response.result;
+  } catch (error) {
+    return Promise.reject(error);
   }
-);
+});
 export const followAndUnfollowUser = createAsyncThunk(
   "user/followAndUnfollow",
   async (body) => {
@@ -25,7 +21,6 @@ export const followAndUnfollowUser = createAsyncThunk(
     }
   }
 );
-
 
 const feedSlice = createSlice({
   name: "feedSlice",
@@ -51,11 +46,21 @@ const feedSlice = createSlice({
         const user = action.payload;
         const index = state?.feedData?.followings.findIndex(
           (item) => item._id === user._id
-        ); 
+        );
         if (index !== -1) {
           state?.feedData.followings.splice(index, 1);
         } else {
           state?.feedData.followings.push(user);
+        }
+
+        // Update the suggestions list
+        const suggestionIndex = state?.feedData?.suggestions.findIndex(
+          (item) => item._id === user._id
+        );
+        if (suggestionIndex !== -1) {
+          state?.feedData.suggestions.splice(suggestionIndex, 1);
+        } else {
+          state?.feedData.suggestions.push(user);
         }
       });
   },

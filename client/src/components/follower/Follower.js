@@ -22,10 +22,7 @@ function Follower({ user }) {
     dispatch(
       followAndUnfollowUser({
         userIdToFollow: user._id,
-      })
-    ).then(() => {
-      dispatch(getFeedData());
-    });
+      }))
   }
 
   return (

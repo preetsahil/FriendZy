@@ -7,8 +7,6 @@ import { likeAndUnlikePost } from "../../redux/slices/postSlice";
 import { useNavigate } from "react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-
-
 function Post({ post }) {
   const [isOpen,setisOpen]=useState(false)
   const dispatch = useDispatch();
@@ -18,7 +16,7 @@ function Post({ post }) {
       likeAndUnlikePost({
         postId: post._id,
       })
-    );
+    ) 
   }
 
   return (

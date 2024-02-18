@@ -40,28 +40,28 @@ const createPostController = async (req, res) => {
 
 const likeAndUnlikePost = async (req, res) => {
   try {
-    const { postId } = req.body;
-    const curUserID = req._id;
+      const { postId } = req.body;
+      const curUserId = req._id;
 
-    const post = await Post.findById(postId).populate("owner");
+      const post = await Post.findById(postId).populate('owner');
+      if (!post) {
+          return res.send(error(404, "Post not found"));
+      }
 
-    if (!post) {
-      return res.send(error(404, "Post not found"));
-    }
+      if (post.likes.includes(curUserId)) {
+          const index = post.likes.indexOf(curUserId);
+          post.likes.splice(index, 1);
+      } else {
+          post.likes.push(curUserId);
+      }
+      await post.save();
+      return res.send(success(200, {post: mapPostOutput(post, req._id)}));
 
-    if (post.likes.includes(curUserID)) {
-      const index = post.likes.indexOf(curUserID);
-      post.likes.splice(index, 1);
-    } else {
-      post.likes.push(curUserID);
-    }
-    await post.save();
-    aw;
-    return res.send(success(200, post));
   } catch (e) {
-    return res.send(error(500, e.message));
+      return res.send(error(500, e.message));
   }
 };
+
 const commentsController = async (req, res) => {
   try {
     const { postId, text } = req.body;
@@ -91,38 +91,6 @@ const commentsController = async (req, res) => {
     res.send(error(500, e.message));
   }
 };
-
-// const updatePostController = async (req, res) => {
-//   try {
-//     const { postId, caption, postImg } = req.body;
-//     if (!postId) {
-//       return res.send(error(400, "postId is required"));
-//     }
-
-//     const curUserID = req._id;
-//     const post = await Post.findById(postId);
-
-//     if (post.owner.toString() !== curUserID) {
-//       return res.send(error(403, "Only owners can update their posts"));
-//     }
-
-//     if (caption) {
-//       post.caption = caption;
-//     }
-//     if (postImg) {
-//       const cloudImg = await cloudinary.uploader.upload(postImg, {
-//         folder: "postImg",
-//       });
-//       post.image.publicId = cloudImg.public_id;
-//       post.image.url = cloudImg.url;
-//     }
-//     await post.save();
-//     return res.send(success(200, { post }));
-//   } catch (e) {
-//     console.log(e);
-//     return res.send(error(500, e.message));
-//   }
-// };
 
 const deletePost = async (req, res) => {
   try {
@@ -156,6 +124,5 @@ module.exports = {
   createPostController,
   likeAndUnlikePost,
   commentsController,
-  // updatePostController,
   deletePost,
 };

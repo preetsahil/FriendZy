@@ -10,7 +10,7 @@ function Feed() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const feedData = useSelector((state) => state.feedDataReducer.feedData);
-  const visibleSuggestions=feedData?.suggestions?.slice(0,5)
+  // const visibleSuggestions=feedData?.suggestions?.slice(0,5)
   useEffect(() => {
     dispatch(getFeedData());
   }, [dispatch]);
@@ -31,12 +31,12 @@ function Feed() {
           </div>
           <div className="suggestions">
             <h3 className="title">Suggested For You</h3>
-            {/* {feedData?.suggestions?.map((user,index) => (
-              <Follower user={user} key={`${user._id} - ${index}`} />
-            ))} */}
-            {visibleSuggestions?.map((user,index) => (
+            {feedData?.suggestions?.map((user,index) => (
               <Follower user={user} key={`${user._id} - ${index}`} />
             ))}
+            {/* {visibleSuggestions?.map((user,index) => (
+              <Follower user={user} key={`${user._id} - ${index}`} />
+            ))} */}
             <p
               style={{
                 marginTop: "20px",
