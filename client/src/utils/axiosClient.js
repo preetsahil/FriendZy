@@ -28,6 +28,7 @@ axiosClient.interceptors.request.use((request) => {
 
 axiosClient.interceptors.response.use(
   async (response) => {
+    console.log("hksahf")
     store.dispatch(setLoading(false));
     const data = response.data;
     if (data.status === "OK") {
@@ -36,6 +37,7 @@ axiosClient.interceptors.response.use(
     const statusCode = data.statusCode;
     const error = data.message;
     const originalRequest = response.config;
+    console.log(originalRequest)
 
     if (statusCode === 401 && !originalRequest._retry) {
       //access token expires

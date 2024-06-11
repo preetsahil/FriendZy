@@ -70,7 +70,7 @@ const loginController = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: false,
     });
     return res.send(success(200, { accessToken }));
   } catch (e) {
@@ -158,7 +158,7 @@ const generateResetToken = (data) => {
 const generateAccessToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
-      expiresIn: "1d",
+      expiresIn: "20s",
     });
     return token;
   } catch (error) {

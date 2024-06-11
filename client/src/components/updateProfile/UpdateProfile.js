@@ -49,7 +49,7 @@ function UpdateProfile() {
     e.preventDefault();
     await axiosClient.delete("/user/");
     removeItem(KEY_ACCESS_TOKEN);
-    navigate("/signup");
+    navigate("/signup"); 
   }
 
   return (
