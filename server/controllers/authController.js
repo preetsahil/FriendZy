@@ -37,7 +37,6 @@ const signupController = async (req, res) => {
      httpOnly: true,
      secure: true,
    });
-  // return res.send(success(200,user));
 
    return res.send(success(200, { accessToken }));
   } catch (e) {
@@ -70,7 +69,7 @@ const loginController = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
     });
     return res.send(success(200, { accessToken }));
   } catch (e) {
@@ -84,6 +83,7 @@ const refreshAccessTokenController = async (req, res) => {
     return res.send(error(401, "Refresh Token in cookie is Required"));
   }
   const refreshToken = cookies.jwt;
+  console.log(refreshToken)
   try {
     const decoded = jwt.verify(
       refreshToken,
@@ -158,7 +158,7 @@ const generateResetToken = (data) => {
 const generateAccessToken = (data) => {
   try {
     const token = jwt.sign(data, process.env.ACCESS_TOKEN_PRIVATE_KEY, {
-      expiresIn: "20s",
+      expiresIn: "1d",
     });
     return token;
   } catch (error) {
