@@ -27,18 +27,18 @@ const signupController = async (req, res) => {
     });
     const user = await User.findOne({ email });
 
-  const accessToken = generateAccessToken({
-    _id: user._id,
-  });
-  const refreshToken = generateRefreshToken({
-    _id: user._id,
-  });
-   res.cookie("jwt", refreshToken, {
-     httpOnly: true,
-     secure: true,
-   });
+    const accessToken = generateAccessToken({
+      _id: user._id,
+    });
+    const refreshToken = generateRefreshToken({
+      _id: user._id,
+    });
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      secure: true,
+    });
 
-   return res.send(success(200, { accessToken }));
+    return res.send(success(200, { accessToken }));
   } catch (e) {
     return res.send(error(500, e.message));
   }
@@ -83,7 +83,7 @@ const refreshAccessTokenController = async (req, res) => {
     return res.send(error(401, "Refresh Token in cookie is Required"));
   }
   const refreshToken = cookies.jwt;
-  console.log(refreshToken)
+  console.log(refreshToken);
   try {
     const decoded = jwt.verify(
       refreshToken,
@@ -127,7 +127,7 @@ const forgetPasswordController = async (req, res) => {
     service: "gmail",
     auth: {
       user: "sahilcloud56@gmail.com",
-      pass: "pqzc lvns yckv crqz",
+      pass: process.env.MAIL_PASS,
     },
   });
 
@@ -186,9 +186,7 @@ const resetController = async (req, res) => {
     await user.save();
     return res.send(success(200, "password updated successfully"));
   } catch (e) {
-    return res.send(
-      error(500, "internal server error try again!")
-    );
+    return res.send(error(500, "internal server error try again!"));
   }
 };
 
