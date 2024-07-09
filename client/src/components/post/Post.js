@@ -29,9 +29,9 @@ function Post({ post }) {
           <Avatar src={post.owner?.avatar?.url} />
           <h4>{post.owner?.name}</h4>
         </div>
-        <div className="update" onClick={() => setisOpen(!isOpen)}>
+        {/* <div className="update" onClick={() => setisOpen(!isOpen)}>
           <BsThreeDotsVertical />
-        </div>
+        </div> */}
         {/* {isOpen && (
         <ul className="dropdown">
           <li>Update Post</li>
