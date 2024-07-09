@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 function Post({ post }) {
-  const [isOpen,setisOpen]=useState(false)
+  // const [isOpen,setisOpen]=useState(false)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   async function handlePostLiked() {
@@ -32,12 +32,12 @@ function Post({ post }) {
         <div className="update" onClick={() => setisOpen(!isOpen)}>
           <BsThreeDotsVertical />
         </div>
-        {isOpen && (
+        {/* {isOpen && (
         <ul className="dropdown">
           <li>Update Post</li>
           <li>Delete Post</li>
         </ul>
-        )}
+        )} */}
       </div>
       <div className="content">
         <img src={post?.image?.url} alt="" />
